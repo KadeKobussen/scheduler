@@ -1,4 +1,4 @@
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 const state = {
   days: [
@@ -90,5 +90,66 @@ describe("selectors", () => {
       const result = getInterview(state, state.appointments["2"].interview);
       expect(result).toBeNull();
     });
+  });
+});
+
+
+
+describe("getInterviewersForDay", () => {
+  const state = {
+    days: [
+      {
+        id: 1,
+        name: "Monday",
+        interviewers: [1, 2],
+        appointments: [1, 2],
+        spots: 1,
+      },
+      {
+        id: 2,
+        name: "Tuesday",
+        interviewers: [2],
+        appointments: [3],
+        spots: 1,
+      },
+    ],
+    interviewers: {
+      1: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+      2: {
+        id: 2,
+        name: "Tori Malcolm",
+        avatar: "https://i.imgur.com/Nmx0Qxo.png",
+      },
+    },
+  };
+
+  it("should return an empty array when the day is not found", () => {
+    const result = getInterviewersForDay(state, "Wednesday");
+    expect(result).toEqual([]);
+  });
+
+  it("should return an array of interviewers for the given day", () => {
+    const result = getInterviewersForDay(state, "Monday");
+    expect(result).toEqual([
+      {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+      {
+        id: 2,
+        name: "Tori Malcolm",
+        avatar: "https://i.imgur.com/Nmx0Qxo.png",
+      },
+    ]);
+  });
+
+  it("should return an empty array when the day has no interviewers", () => {
+    const result = getInterviewersForDay(state, "Wednesday");
+    expect(result).toEqual([]);
   });
 });
