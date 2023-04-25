@@ -45,14 +45,12 @@ export default function Appointment(props) {
   }
 
   function remove() {
-    {/* will only trigger if confirm in CONFIRM is clicked  */}
     if (mode === CONFIRM) {
       transition(DELETING, true)
       props.cancelInterview(props.id)
         .then(() => transition(EMPTY))
         .catch(() => transition(ERROR_DELETE, true))
     } else {
-      {/* transitions to CONFIRM before actually deleting */}
       transition(CONFIRM);      
     }
   }
