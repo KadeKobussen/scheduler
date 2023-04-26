@@ -92,4 +92,10 @@ export default {
       data: fixtures.interview
     })
   }),
+  delete: jest.fn(url => {
+    return Promise.resolve({
+      status: 204,
+      statusText: "This is fake",
+    });
+  }),
 };
