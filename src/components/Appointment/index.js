@@ -45,18 +45,20 @@ export default function Appointment(props) {
   }
 
   function remove() {
+    {/* will only trigger if confirm in CONFIRM is clicked  */}
     if (mode === CONFIRM) {
       transition(DELETING, true)
       props.cancelInterview(props.id)
         .then(() => transition(EMPTY))
         .catch(() => transition(ERROR_DELETE, true))
     } else {
+      {/* transitions to CONFIRM before actually deleting */}
       transition(CONFIRM);      
     }
   }
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition("CREATE")} />}
       {mode === SHOW && (
@@ -69,8 +71,6 @@ export default function Appointment(props) {
       )}
       {mode === CREATE && 
         <Form
-          name={props.name}
-          value={props.value}
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
@@ -85,8 +85,8 @@ export default function Appointment(props) {
       {mode === DELETING && <Status message="Deleting..." />}
       {mode === EDIT &&
         <Form 
-          name={props.name ? props.name : props.interview.student}
-          value={props.value ? props.value: props.interview.interviewer.id}
+          name={props.interview.student}
+          interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
           onSave={save}
           onCancel={back}
