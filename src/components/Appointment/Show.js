@@ -1,7 +1,5 @@
-
 import React from "react";
-import "./styles.scss"
-
+import "./styles.scss";
 
 export default function Show(props) {
   return (
